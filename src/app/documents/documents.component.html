@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col">
+        <ngb-pagination [(page)]="params.page"
+        [pageSize]="params.pageSize"
+        [collectionSize]="documents.count" (pageChange)="onPageChange()"></ngb-pagination>
+    </div>
+    <div class="col-8">
+        <small *ngIf="showSettings">
+            Date of Creation<input class="ms-1 me-1" type="checkbox" [(ngModel)]="settings.dateOfCreation">
+            Date of Recording<input class="ms-1 me-1" type="checkbox"  [(ngModel)]="settings.dateOfRecording">
+            Status<input class="ms-1 me-1" type="checkbox" [(ngModel)]="settings.status">
+            Transaction Type<input class="ms-1 me-1" type="checkbox" [(ngModel)]="settings.transactionType">
+            Business Partner<input class="ms-1 me-1" type="checkbox" [(ngModel)]="settings.businessPartner">
+            Business Partner Location<input class="ms-1 me-1" type="checkbox" [(ngModel)]="settings.businessPartnerLocation">
+            Year<input class="ms-1 me-1" type="checkbox" [(ngModel)]="settings.year">
+        </small>
+        
+    </div>
+    <div class="col">
+        <button *ngIf="!showSettings" class="btn btn-primary" (click)="showSettings = !showSettings">Open table settings</button>
+        <button *ngIf="showSettings" class="btn" (click)="showSettings = !showSettings">Close table settings</button>
+    </div>
+</div>
+<div class="row" >
+    <div class="col" >
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th *ngIf="settings.dateOfCreation" scope="col" (click)="changeSort('dateOfCreation')">D creation</th>
+                <th *ngIf="settings.dateOfRecording" scope="col" (click)="changeSort('dateOfRecording')">d RECORD</th>
+                <th *ngIf="settings.status" scope="col" (click)="changeSort('status')">status</th>
+                <th *ngIf="settings.transactionType" scope="col" (click)="changeSort('transactionType')">transakcion</th>
+                <th  *ngIf="settings.businessPartner" scope="col">business</th>
+                <th *ngIf="settings.businessPartnerLocation" scope="col">partner</th>
+                <th *ngIf="settings.year" scope="col">year</th>
+               
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of documents.results" (click)="openDocument(item._id)">
+                <td *ngIf="settings.dateOfCreation">{{item.dateOfCreation | date}}</td>
+                <td *ngIf="settings.dateOfRecording">{{item.dateOfRecording | date}}</td>
+                <td *ngIf="settings.status">{{item.status}}</td>
+                <td *ngIf="settings.transactionType">{{item.transactionType}}</td>
+                <td *ngIf="settings.businessPartner">{{item.businessPartner.name}}</td>
+                <td *ngIf="settings.businessPartnerLocation">{{item.businessPartner.city}} {{item.businessPartner.address}}</td>
+                <td *ngIf="settings.year">{{item.year}}</td>
+                
+              </tr>
+            </tbody>
+          </table>
+</div>
+</div>
